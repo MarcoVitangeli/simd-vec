@@ -4,7 +4,7 @@
 #include <stdio.h>
 #define MIN(a,b) (((a)<(b))?(a):(b))
 
-simd_ret_t simd_vec_new(simd_vec_t* v, const size_t cap) {
+simd_vec_ret_t simd_vec_new(simd_vec_t* v, const size_t cap) {
     if (!v) {
         return SIMD_VEC_ERR_INVALID_ARG;
     }
@@ -32,7 +32,7 @@ void simd_vec_zero(simd_vec_t* v) {
     }
 }
 
-simd_ret_t simd_vec_append(simd_vec_t* v, float val) {
+simd_vec_ret_t simd_vec_append(simd_vec_t* v, float val) {
     if (v->len == v->max_len) {
         return SIMD_VEC_ERR_MAX_CAPACITY;
     }
@@ -42,7 +42,7 @@ simd_ret_t simd_vec_append(simd_vec_t* v, float val) {
     return SIMD_VEC_OK;
 }
 
-simd_ret_t simd_vec_insert_at(simd_vec_t* v, size_t idx, float val) {
+simd_vec_ret_t simd_vec_insert_at(simd_vec_t* v, size_t idx, float val) {
     if (idx == 0 || idx >= v->len) {
         return SIMD_VEC_ERR_INVALID_IDX;
     }
@@ -56,7 +56,7 @@ void simd_vec_reset(simd_vec_t* v) {
     v->len = 0;
 }
 
-simd_ret_t simd_vec_add(const simd_vec_t* v1, const simd_vec_t* v2, simd_vec_t* dst) {
+simd_vec_ret_t simd_vec_add(const simd_vec_t* v1, const simd_vec_t* v2, simd_vec_t* dst) {
     if (v1->len != v2->len || v1->cap > dst->cap) {
         return SIMD_VEC_ERR_INVALID_IDX;
     }
@@ -68,7 +68,7 @@ simd_ret_t simd_vec_add(const simd_vec_t* v1, const simd_vec_t* v2, simd_vec_t* 
     return SIMD_VEC_OK;
 }
 
-simd_ret_t simd_vec_value_at(const simd_vec_t* v, size_t idx, float* val) {
+simd_vec_ret_t simd_vec_value_at(const simd_vec_t* v, size_t idx, float* val) {
     if (!v) {
         return SIMD_VEC_ERR_INVALID_ARG;
     }
@@ -82,7 +82,7 @@ simd_ret_t simd_vec_value_at(const simd_vec_t* v, size_t idx, float* val) {
     return SIMD_VEC_OK;
 }
 
-simd_ret_t simd_vec_sum(const simd_vec_t* v, float* f) {
+simd_vec_ret_t simd_vec_sum(const simd_vec_t* v, float* f) {
     *f = 0.0f;
     for(size_t i = 0; i < v->cap; i++)
         *f = SIMD_VEC_ELEM(v->data, 0) + SIMD_VEC_ELEM(v->data, 1) + SIMD_VEC_ELEM(v->data, 2) + SIMD_VEC_ELEM(v->data, 3);
@@ -110,7 +110,7 @@ uint8_t get_mask(size_t rmd) {
     return (0xFF >> (4-rmd)) & 0xFF;
 }
 
-simd_ret_t simd_vec_dp(const simd_vec_t* v1,const simd_vec_t* v2, float* res) {
+simd_vec_ret_t simd_vec_dp(const simd_vec_t* v1,const simd_vec_t* v2, float* res) {
     if (v1->len != v2->len) {
         return SIMD_VEC_ERR_INVALID_IDX;
     }
