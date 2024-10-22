@@ -34,6 +34,7 @@ void simd_vec_reset(simd_vec_t*);
 simd_ret_t simd_vec_add(const simd_vec_t*,const simd_vec_t*,simd_vec_t*);
 simd_ret_t simd_vec_value_at(const simd_vec_t*,size_t,float*);
 simd_ret_t simd_vec_sum(const simd_vec_t*, float*);
+simd_ret_t simd_vec_dp(const simd_vec_t*,const simd_vec_t*, float*);
 
 // DEBUG UTILITIES
 void simd_vec_debug_stdout(const simd_vec_t*);

@@ -1,6 +1,8 @@
 #include "simd_vec.h"
 
+#include <stdint.h>
 #include <stdio.h>
+#define MIN(a,b) (((a)<(b))?(a):(b))
 
 simd_ret_t simd_vec_new(simd_vec_t* v, const size_t cap) {
     if (!v) {
@@ -85,6 +87,42 @@ simd_ret_t simd_vec_sum(const simd_vec_t* v, float* f) {
     for(size_t i = 0; i < v->cap; i++)
         *f = SIMD_VEC_ELEM(v->data, 0) + SIMD_VEC_ELEM(v->data, 1) + SIMD_VEC_ELEM(v->data, 2) + SIMD_VEC_ELEM(v->data, 3);
 
+    return SIMD_VEC_OK;
+}
+
+__m256 simd_vec_reverse(__m256 v) {
+    return _mm256_permutevar8x32_ps(v, _mm256_set_epi32(0,1,2,3,4,5,6,7));
+}
+
+uint8_t get_mask(size_t rmd) {
+    // switch (rmd) {
+    //     case 0:
+    //         return 0x0F; // 0000 1111
+    //     case 1:
+    //         return 0x1F; // 0001 1111
+    //     case 2:
+    //         return 0x3F; // 0011 1111
+    //     case 3:
+    //         return 0x7F; // 0111 1111
+    //     case 4:
+    //         return 0xFF; // 1111 1111
+    // }
+    return (0xFF >> (4-rmd)) & 0xFF;
+}
+
+simd_ret_t simd_vec_dp(const simd_vec_t* v1,const simd_vec_t* v2, float* res) {
+    if (v1->len != v2->len) {
+        return SIMD_VEC_ERR_INVALID_IDX;
+    }
+    float acc = 0;
+
+    for (size_t i = 0; i < v1->cap; i++) {
+        __m256 lh = _mm256_dp_ps(v1->data[i], v2->data[i], 0xFF);
+        __m256 rh = _mm256_dp_ps(simd_vec_reverse(v2->data[i]), simd_vec_reverse(v1->data[i]), 0xFF);
+        acc += lh[0] + rh[0];
+    }
+
+    *res = acc;
     return SIMD_VEC_OK;
 }
 
