@@ -8,6 +8,6 @@ The idea of the library is to provide a float-specific dynamic array that uses A
 
 ## Running the project
 
-This project also has a Makefile that runs a simd and nosimd version of a main file that do the same.
+In the examples folders, there are examples for the simd-vec library. To run all examples `cd` into examples and run `make`.
 
 To use this library as standalone instead, the AVX2 extension must be available for the compiler (in gcc, its possible to compile with the **-mavx** flag)
