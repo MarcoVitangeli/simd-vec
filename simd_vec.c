@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#define MIN(a,b) (((a)<(b))?(a):(b))
 
 simd_vec_ret_t simd_vec_new(simd_vec_t* v, const size_t cap) {
     if (!v) {
@@ -92,22 +91,6 @@ simd_vec_ret_t simd_vec_sum(const simd_vec_t* v, float* f) {
 
 __m256 simd_vec_reverse(__m256 v) {
     return _mm256_permutevar8x32_ps(v, _mm256_set_epi32(0,1,2,3,4,5,6,7));
-}
-
-uint8_t get_mask(size_t rmd) {
-    // switch (rmd) {
-    //     case 0:
-    //         return 0x0F; // 0000 1111
-    //     case 1:
-    //         return 0x1F; // 0001 1111
-    //     case 2:
-    //         return 0x3F; // 0011 1111
-    //     case 3:
-    //         return 0x7F; // 0111 1111
-    //     case 4:
-    //         return 0xFF; // 1111 1111
-    // }
-    return (0xFF >> (4-rmd)) & 0xFF;
 }
 
 simd_vec_ret_t simd_vec_dp(const simd_vec_t* v1,const simd_vec_t* v2, float* res) {
