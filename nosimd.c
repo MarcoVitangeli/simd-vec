@@ -4,6 +4,11 @@
 
 #define ARRAY_SIZE 100000000
 
+clock_t startm, stopm;
+#define START if ( (startm = clock()) == -1) {printf("Error calling clock");exit(1);}
+#define STOP if ( (stopm = clock()) == -1) {printf("Error calling clock");exit(1);}
+#define PRINTTIME printf("%6.3f seconds used by the processor by nosimd version.\n", ((double)stopm-startm)/CLOCKS_PER_SEC);
+
 float RandomFloat(float min, float max){
     return ((max - min) * ((float)rand() / RAND_MAX)) + min;
 }
@@ -20,7 +25,7 @@ int main() {
         f2[i] = RandomFloat(0.0f, 1000000.0f);
     }
 
-    printf("START\n");
+    START;
     for (int i = 0; i < ARRAY_SIZE; i++) {
         res[i] = f1[i] + f2[i];
     }
@@ -30,8 +35,9 @@ int main() {
       sum += res[i];
     }
 
+    STOP;
     printf("SUM = %f\n", sum);
-    printf("END\n");
+    PRINTTIME
 
     return 0;
 }
