@@ -11,3 +11,10 @@ The idea of the library is to provide a float-specific dynamic array that uses A
 In the examples folders, there are examples for the simd-vec library. To run all examples `cd` into examples and run `make`.
 
 To use this library as standalone instead, the AVX2 extension must be available for the compiler (in gcc, its possible to compile with the **-mavx** flag)
+
+## SIMD_STRING
+
+This repository also provides the `simd_string` library. The idea of this library is to match `<string.h>` with a better performance leveraging SIMD instructions.
+
+### NOTE
+The string part of the repository is not optimized, there is work to do to improve the usage and memory allocations.

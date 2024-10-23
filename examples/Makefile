@@ -1,4 +1,4 @@
-all: run_simd_sum run_nosimd_sum run_nosimd_dp run_simd_dp
+all: run_simd_sum run_nosimd_sum run_nosimd_dp run_simd_dp run_simd_string
 
 sum: run_simd_sum run_nosimd_sum
 
@@ -28,6 +28,12 @@ run_nosimd_dp: build_nosimd_dp
 
 build_nosimd_dp:
 	gcc dotproduct/dpnosimd.c -o dpnosimd
+
+run_simd_string: build_simd_string
+	./simd_string
+
+build_simd_string:
+	gcc -msse2 simdstring/test.c -o simd_string -I..
 
 clean:
 	rm dpsimd
